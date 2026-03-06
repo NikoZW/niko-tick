@@ -1,9 +1,12 @@
 import type { CounterProps } from "../types/types";
 
-export default function Counter({ todos, completedCount }: CounterProps) {
+export default function Counter({
+  totalNumberOfTodos,
+  completedCount,
+}: CounterProps) {
   return (
     <p>
-      <b>{completedCount}</b> / {todos.length} todos completed
+      <b>{completedCount}</b> / {totalNumberOfTodos} todos completed
     </p>
   );
 }

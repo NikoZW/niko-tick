@@ -16,11 +16,11 @@ export type DeleteButtonProps = {
 };
 
 export type HeaderProps = {
-  todos: Todo[]
+  totalNumberOfTodos: number
   completedCount: number
 }
 export type CounterProps = {
-  todos: Todo[]
+  totalNumberOfTodos: number
   completedCount: number
 }
 
