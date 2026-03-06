@@ -15,7 +15,7 @@ const initialTodos = [
 export default function App() {
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
-  //handle event functions and helper functions
+  //handle event functions
   const handleClick = (id: number) => {
     setTodos((prev) =>
       prev.map((t) => {
@@ -32,6 +32,15 @@ export default function App() {
     setTodos((prev) => prev.filter((t) => t.id !== id));
   };
 
+  const handleAdd = (text: string) => {
+    setTodos((prev) => [
+      ...prev,
+      { id: prev[prev.length - 1].id + 1, text, isCompleted: false },
+    ]);
+  };
+
+  //helper functions
+
   const completedCount = todos.filter((t) => t.isCompleted === true).length;
 
   return (
@@ -47,7 +56,7 @@ export default function App() {
           handleDelete={handleDelete}
         />
 
-        <Sidebar />
+        <Sidebar handleAdd={handleAdd} />
       </main>
       <Footer />
     </div>

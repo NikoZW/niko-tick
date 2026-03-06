@@ -23,3 +23,12 @@ export type CounterProps = {
   todos: Todo[]
   completedCount: number
 }
+
+export type SideProps = {
+handleAdd:(text: string) => void
+}
+
+
+export type AddToDoFormProps = {
+  handleAdd:(text: string) => void
+}
