@@ -1,10 +1,9 @@
-import { useState } from "react";
+import type { CounterProps } from "../types/types";
 
-export default function Counter() {
-  const [state, setState] = useState(0);
+export default function Counter({ todos, completedCount }: CounterProps) {
   return (
-    <p onClick={() => setState(state + 1)}>
-      <b>{state}</b> / 0 todos completed
+    <p>
+      <b>{completedCount}</b> / {todos.length} todos completed
     </p>
   );
 }

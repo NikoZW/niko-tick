@@ -1,41 +1,21 @@
 import DeleteButton from "./DeleteButton";
-import { useState } from "react";
-import type { Todo } from "../types";
+import type { TodoListProps } from "../types/types";
 
-const initialTodos = [
-  { id: 1, text: "study exam", isCompleted: false },
-  { id: 2, text: "walk the dog", isCompleted: true },
-  { id: 3, text: "buy groceries", isCompleted: false },
-];
-
-const TodoList = () => {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
-
+const TodoList = ({ todos, handleClick, handleDelete }: TodoListProps) => {
   return (
     <ul>
       {todos.map((todo) => (
         <li
           key={todo.id}
           className="flex justify-between items-center px-8 h-12.5 text-14px cursor-pointer border-b border-black/8"
-          onClick={() => {
-            setTodos((prev) =>
-              prev.map((t) => {
-                if (t.id === todo.id) {
-                  return { ...t, isCompleted: !t.isCompleted };
-                } else {
-                  return t;
-                }
-              }),
-            );
-          }}
+          onClick={() => handleClick(todo.id)}
         >
           <span
             className={`${todo.isCompleted ? "line-through text-[#ccc]" : ""}`}
           >
-            {" "}
-            {todo.text}{" "}
+            {todo.text}
           </span>
-          <DeleteButton id={todo.id} setTodos={setTodos} />
+          <DeleteButton id={todo.id} handleDelete={handleDelete} />
         </li>
       ))}
     </ul>

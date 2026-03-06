@@ -1,15 +1,13 @@
-import type { Todo } from "../types";
+import type { DeleteButtonProps } from "../types/types";
 
-type Props = {
-  id: number;
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-};
-
-export default function DeleteButton({ id, setTodos }: Props) {
+export default function DeleteButton({ id, handleDelete }: DeleteButtonProps) {
   return (
     <button
       className="cursor-pointer"
-      onClick={() => setTodos((prev) => prev.filter((t) => t.id !== id))}
+      onClick={(e) => {
+        e.stopPropagation();
+        handleDelete(id);
+      }}
     >
       ❌
     </button>
