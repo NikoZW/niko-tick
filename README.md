@@ -4,7 +4,7 @@ A simple, focused todo app — sign in once and manage your tasks. Todos are sto
 
 ## Preview
 
----
+![Niko Tick preview](./public/work.png)
 
 ## Tech Stack
 
