@@ -1,3 +1,5 @@
+import type { User } from "@supabase/supabase-js"
+
 export type Todo = {
   id: number
   text: string
@@ -7,6 +9,9 @@ export type Todo = {
 export type ButtonProps = {
   buttonType?: "primary" | "secondary"
   children: React.ReactNode
+  disabled?: boolean
+  onClick?: () => void 
+
 }
 
 export type DeleteButtonProps = {
@@ -26,4 +31,6 @@ export type TTodosContext = {
   handleClick: (id: number) => void
   handleDelete: (id: number) => void
   handleAdd: (text: string) => void
+  user: User | null          
+  handleLogout: () => void   
 }

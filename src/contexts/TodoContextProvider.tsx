@@ -4,35 +4,21 @@ import type {
   TodoContextProviderProbs,
   TTodosContext,
 } from "../libs/types";
+import { supabase } from "../libs/supabase";
+import type { User } from "@supabase/supabase-js";
 
 export const TodosContext = createContext<TTodosContext | null>(null);
 
-//helper functions
-const getInitialTodos = () => {
-  const savedTodos = localStorage.getItem("todos");
-  if (savedTodos) {
-    return JSON.parse(savedTodos);
-  } else {
-    return [];
-  }
-};
 export default function TodoContextProvider({
   children,
 }: TodoContextProviderProbs) {
-  //sample data
-  const initialTodos = [
-    { id: 1, text: "study exam", isCompleted: false },
-    { id: 2, text: "walk the dog", isCompleted: true },
-    { id: 3, text: "buy groceries", isCompleted: false },
-  ];
-
-  //State
-  const [todos, setTodos] = useState<Todo[]>(getInitialTodos);
-
+  //TodoState
+  const [todos, setTodos] = useState<Todo[]>([]);
+  //AuthState
+  const [user, setUser] = useState<User | null>(null);
   //derived state
   const completedCount = todos.filter((t) => t.isCompleted === true).length;
   const totalNumberOfTodos = todos.length;
-
   //handle event functions
   const handleClick = (id: number) => {
     setTodos((prev) =>
@@ -58,11 +44,32 @@ export default function TodoContextProvider({
       },
     ]);
   };
+  const handleLogout = async () => {
+  await supabase.auth.signOut()
+}
 
   //side Effect
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+    const getInitialTodos = async () => {
+      const { data } = await supabase.from("todos").select();
+      setTodos(data || []);
+    };
+    getInitialTodos();
+  }, []);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) =>
+      setUser(session?.user ?? null),
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <TodosContext.Provider
@@ -73,6 +80,8 @@ export default function TodoContextProvider({
         handleClick,
         handleDelete,
         handleAdd,
+        user,
+        handleLogout,
       }}
     >
       {children}

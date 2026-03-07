@@ -9,3 +9,9 @@ export default function useTodosContext(){
     }
     return context
 }
+
+export const useTodo = () => {
+  const context = useContext(TodosContext)
+  if (!context) throw new Error("useTodo must be used within TodoProvider")
+  return context
+}
