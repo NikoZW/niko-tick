@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import type {
   Todo,
   TodoContextProviderProbs,
@@ -7,15 +7,32 @@ import type {
 
 export const TodosContext = createContext<TTodosContext | null>(null);
 
+//helper functions
+const getInitialTodos = () => {
+  const savedTodos = localStorage.getItem("todos");
+  if (savedTodos) {
+    return JSON.parse(savedTodos);
+  } else {
+    return [];
+  }
+};
 export default function TodoContextProvider({
   children,
 }: TodoContextProviderProbs) {
+  //sample data
   const initialTodos = [
     { id: 1, text: "study exam", isCompleted: false },
     { id: 2, text: "walk the dog", isCompleted: true },
     { id: 3, text: "buy groceries", isCompleted: false },
   ];
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+
+  //State
+  const [todos, setTodos] = useState<Todo[]>(getInitialTodos);
+
+  //derived state
+  const completedCount = todos.filter((t) => t.isCompleted === true).length;
+  const totalNumberOfTodos = todos.length;
+
   //handle event functions
   const handleClick = (id: number) => {
     setTodos((prev) =>
@@ -34,12 +51,18 @@ export default function TodoContextProvider({
   const handleAdd = (text: string) => {
     setTodos((prev) => [
       ...prev,
-      { id: prev[prev.length - 1].id + 1, text, isCompleted: false },
+      {
+        id: prev.length > 0 ? prev[prev.length - 1].id + 1 : 1,
+        text,
+        isCompleted: false,
+      },
     ]);
   };
-  //derived state
-  const completedCount = todos.filter((t) => t.isCompleted === true).length;
-  const totalNumberOfTodos = todos.length;
+
+  //side Effect
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <TodosContext.Provider
