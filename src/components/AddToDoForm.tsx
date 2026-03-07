@@ -23,7 +23,7 @@ export default function AddToDoForm() {
         }}
       />
 
-      <Button>Add to list</Button>
+      <Button type="submit">Add to list</Button>
     </form>
   );
 }

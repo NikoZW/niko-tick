@@ -2,14 +2,16 @@ import { useState } from "react";
 import { supabase } from "../libs/supabase";
 import { useTodo } from "../libs/hook";
 import Button from "./Button";
-import type { AuthMode } from "../libs/types";
 
 export default function AuthModal() {
   const { authMode, closeAuthModal } = useTodo();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "error" | "success";
+    text: string;
+  } | null>(null);
 
   const isLogin = authMode === "login";
 
@@ -19,13 +21,19 @@ export default function AuthModal() {
     setMessage(null);
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
         if (error) throw error;
         closeAuthModal();
       } else {
         const { error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
-        setMessage({ type: "success", text: "Check your email to confirm your account." });
+        setMessage({
+          type: "success",
+          text: "Check your email to confirm your account.",
+        });
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Something went wrong.";

@@ -30,9 +30,9 @@ export type TTodosContext = {
   todos: Todo[]
   completedCount: number
   totalNumberOfTodos: number
-  handleClick: (id: number) => void
-  handleDelete: (id: number) => void
-  handleAdd: (text: string) => void
+  handleClick: (id: number) => Promise <void> 
+  handleDelete: (id: number) => Promise  <void> 
+  handleAdd: (text: string) =>  Promise <void> 
   user: User | null
   handleLogout: () => void
   authModalOpen: boolean
