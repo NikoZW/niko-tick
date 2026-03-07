@@ -1,7 +1,5 @@
-type ButtonProps = {
-  buttonType?: "primary" | "secondary";
-  children: React.ReactNode;
-};
+import type { ButtonProps } from "../libs/types";
+
 export default function Button({ buttonType, children }: ButtonProps) {
   return (
     <button

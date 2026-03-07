@@ -1,12 +1,12 @@
-import type { DeleteButtonProps } from "../types/types";
+import type { DeleteButtonProps } from "../libs/types";
 
-export default function DeleteButton({ id, handleDelete }: DeleteButtonProps) {
+export default function DeleteButton({ id, onDelete }: DeleteButtonProps) {
   return (
     <button
       className="cursor-pointer"
       onClick={(e) => {
         e.stopPropagation();
-        handleDelete(id);
+        onDelete(id);
       }}
     >
       ❌

@@ -1,7 +1,9 @@
 import DeleteButton from "./DeleteButton";
-import type { TodoListProps } from "../types/types";
+import useTodosContext from "../libs/hook"
 
-const TodoList = ({ todos, handleClick, handleDelete }: TodoListProps) => {
+const TodoList = () => {
+  const { todos, handleClick, handleDelete } = useTodosContext();
+
   return (
     <ul>
       {todos.map((todo) => (
@@ -15,7 +17,7 @@ const TodoList = ({ todos, handleClick, handleDelete }: TodoListProps) => {
           >
             {todo.text}
           </span>
-          <DeleteButton id={todo.id} handleDelete={handleDelete} />
+          <DeleteButton id={todo.id} onDelete={handleDelete} />
         </li>
       ))}
     </ul>
