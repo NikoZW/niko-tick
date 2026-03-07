@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import type {
+  AuthMode,
   Todo,
   TodoContextProviderProbs,
   TTodosContext,
@@ -16,6 +17,17 @@ export default function TodoContextProvider({
   const [todos, setTodos] = useState<Todo[]>([]);
   //AuthState
   const [user, setUser] = useState<User | null>(null);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<AuthMode>("login");
+  const openLoginModal = () => {
+    setAuthMode("login");
+    setAuthModalOpen(true);
+  };
+  const openRegisterModal = () => {
+    setAuthMode("register");
+    setAuthModalOpen(true);
+  };
+  const closeAuthModal = () => setAuthModalOpen(false);
   //derived state
   const completedCount = todos.filter((t) => t.isCompleted === true).length;
   const totalNumberOfTodos = todos.length;
@@ -82,6 +94,11 @@ export default function TodoContextProvider({
         handleAdd,
         user,
         handleLogout,
+        authModalOpen,
+        authMode,
+        openLoginModal,
+        openRegisterModal,
+        closeAuthModal,
       }}
     >
       {children}

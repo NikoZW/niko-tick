@@ -10,8 +10,8 @@ export type ButtonProps = {
   buttonType?: "primary" | "secondary"
   children: React.ReactNode
   disabled?: boolean
-  onClick?: () => void 
-
+  onClick?: () => void
+  type?: "button" | "submit"
 }
 
 export type DeleteButtonProps = {
@@ -24,6 +24,8 @@ export type TodoContextProviderProbs = {
     children: React.ReactNode
 }
 
+export type AuthMode = "login" | "register";
+
 export type TTodosContext = {
   todos: Todo[]
   completedCount: number
@@ -31,6 +33,11 @@ export type TTodosContext = {
   handleClick: (id: number) => void
   handleDelete: (id: number) => void
   handleAdd: (text: string) => void
-  user: User | null          
-  handleLogout: () => void   
+  user: User | null
+  handleLogout: () => void
+  authModalOpen: boolean
+  authMode: AuthMode
+  openLoginModal: () => void
+  openRegisterModal: () => void
+  closeAuthModal: () => void
 }
